@@ -1,9 +1,5 @@
 package jm.task.core.jdbc.util;
 
-import jm.task.core.jdbc.model.User;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -11,25 +7,17 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class Util {
+public class UtilJDBC {
     static {
-        try {
-            configuration = new Configuration().addAnnotatedClass(User.class).buildSessionFactory();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-//        driverLoader();
+        driverLoader();
     }
-    private static final SessionFactory configuration;
+
     private static final String URL = "db.url";
     private static final String USER = "db.user";
     private static final String PASS = "db.pass";
     private static final Properties PROPERTIES = new Properties();
 
-    private Util() {
-    }
-    public static SessionFactory getConfig () {
-        return configuration;
+    private UtilJDBC() {
     }
 
     public static Connection open() {
@@ -45,7 +33,7 @@ public class Util {
     }
 
     private static void loadProperties() {
-        try (InputStream inputStream = Util.class.getClassLoader().getResourceAsStream("application.properties")) {
+        try (InputStream inputStream = UtilJDBC.class.getClassLoader().getResourceAsStream("application.properties")) {
             PROPERTIES.load(inputStream);
         } catch (IOException e) {
             throw new RuntimeException("Properties read error");
