@@ -1,9 +1,5 @@
 package jm.task.core.jdbc.util;
 
-import jm.task.core.jdbc.model.User;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -13,23 +9,15 @@ import java.util.Properties;
 
 public class Util {
     static {
-        try {
-            configuration = new Configuration().addAnnotatedClass(User.class).buildSessionFactory();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-//        driverLoader();
+        driverLoader();
     }
-    private static final SessionFactory configuration;
+
     private static final String URL = "db.url";
     private static final String USER = "db.user";
     private static final String PASS = "db.pass";
     private static final Properties PROPERTIES = new Properties();
 
     private Util() {
-    }
-    public static SessionFactory getConfig () {
-        return configuration;
     }
 
     public static Connection open() {

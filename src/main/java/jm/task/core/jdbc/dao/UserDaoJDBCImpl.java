@@ -1,7 +1,7 @@
 package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
-import jm.task.core.jdbc.util.UtilJDBC;
+import jm.task.core.jdbc.util.Util;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     }
     public void createUsersTable() {
-        try (Connection conn = UtilJDBC.open(); Statement statement = conn.createStatement()) {
+        try (Connection conn = Util.open(); Statement statement = conn.createStatement()) {
             statement.addBatch(sqlCreateDatabase);
             statement.addBatch(sqlUseUsers);
             statement.addBatch(sqlCreateTable);
@@ -55,7 +55,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void dropUsersTable() {
-        try (Connection conn = UtilJDBC.open(); Statement statement = conn.createStatement()) {
+        try (Connection conn = Util.open(); Statement statement = conn.createStatement()) {
             statement.addBatch(sqlUseUsers);
             statement.addBatch(sqlDropTable);
             statement.executeBatch();
@@ -65,7 +65,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        try (Connection conn = UtilJDBC.open()) {
+        try (Connection conn = Util.open()) {
             PreparedStatement preparedStatement = conn.prepareStatement(sqlSaveUser);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastName);
@@ -79,7 +79,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void removeUserById(long id) {
-        try (Connection conn = UtilJDBC.open()) {
+        try (Connection conn = Util.open()) {
             PreparedStatement preparedStatement = conn.prepareStatement(sqlRemoveUserById);
             preparedStatement.setInt(1, (int) id);
             preparedStatement.execute(sqlUseUsers);
@@ -91,7 +91,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-        try (Connection conn = UtilJDBC.open(); Statement statement = conn.createStatement()) {
+        try (Connection conn = Util.open(); Statement statement = conn.createStatement()) {
             statement.execute(sqlUseUsers);
             ResultSet result = statement.executeQuery(sqlGetAllUsers);
             while (result.next()) {
@@ -110,7 +110,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void cleanUsersTable() {
-        try (Connection conn = UtilJDBC.open(); Statement statement = conn.createStatement()) {
+        try (Connection conn = Util.open(); Statement statement = conn.createStatement()) {
             statement.addBatch(sqlUseUsers);
             statement.addBatch(sqlClearUsers);
             statement.executeBatch();
