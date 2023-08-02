@@ -20,7 +20,7 @@ public class Util {
     private Util() {
     }
 
-    public static Connection open() {
+    public static Connection getConnection() {
         loadProperties();
         try {
             return DriverManager.getConnection(
